@@ -42,20 +42,19 @@
             <form id="new-post-form">
                 <div class="form-group">
                     <label for="titulo">Título do Post*</label>
-                    <input type="text" id="titulo" name="titulo" required 
-                           placeholder="Digite um título atrativo para o post">
+                    <input type="text" id="titulo" name="titulo" required
+                        placeholder="Digite um título atrativo para o post">
                 </div>
 
                 <div class="form-group">
                     <label for="autor">Autor*</label>
-                    <input type="text" id="autor" name="autor" required 
-                           placeholder="Nome do autor do post">
+                    <input type="text" id="autor" name="autor" required placeholder="Nome do autor do post">
                 </div>
 
                 <div class="form-group">
                     <label for="imagem">Link da Imagem de Capa*</label>
-                    <input type="url" id="imagem" name="imagem" required 
-                           placeholder="Cole aqui o link da imagem de capa">
+                    <input type="url" id="imagem" name="imagem" required
+                        placeholder="Cole aqui o link da imagem de capa">
                     <small>Dica: Use uma imagem no formato 16:9 para melhor visualização</small>
                 </div>
 
@@ -65,7 +64,8 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="btn-secondary" onclick="window.location.href='../blog.html'">Cancelar</button>
+                    <button type="button" class="btn-secondary"
+                        onclick="window.location.href='../blog.html'">Cancelar</button>
                     <button type="submit" class="btn-primary">Publicar Post</button>
                 </div>
             </form>
@@ -93,9 +93,6 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        // Lista de IPs autorizados
-        const authorizedIPs = ['172.24.0.245', '127.0.0.1', 'localhost', '::1'];
-
         // Elementos do DOM
         const postForm = document.getElementById('post-form');
         const authMessage = document.getElementById('auth-message');
@@ -117,18 +114,18 @@
             try {
                 const docRef = doc(db, 'posts', postId);
                 const docSnap = await getDoc(docRef);
-                
+
                 if (docSnap.exists()) {
                     const post = docSnap.data();
                     editingPostId = postId;
-                    
+
                     document.getElementById('titulo').value = post.titulo;
                     document.getElementById('autor').value = post.autor;
                     document.getElementById('imagem').value = post.imagem;
-                    
+
                     // Aguardar o TinyMCE inicializar
                     tinymce.get('conteudo').setContent(post.conteudo);
-                    
+
                     // Atualizar interface
                     formTitle.textContent = 'Editar Post';
                     submitButton.textContent = 'Salvar Alterações';
@@ -194,7 +191,7 @@
         });
 
         // Submissão do formulário
-        document.getElementById('new-post-form').addEventListener('submit', async function(e) {
+        document.getElementById('new-post-form').addEventListener('submit', async function (e) {
             e.preventDefault();
 
             submitButton.disabled = true;
@@ -207,9 +204,9 @@
                     isAuthenticated = true;
                 } catch (authError) {
                     console.error('Erro na autenticação anônima:', authError);
-                    isAuthenticated = window.location.hostname === 'localhost' || 
-                                    window.location.hostname === '127.0.0.1' ||
-                                    window.location.hostname === '::1';
+                    isAuthenticated = window.location.hostname === 'localhost' ||
+                        window.location.hostname === '127.0.0.1' ||
+                        window.location.hostname === '::1';
                 }
 
                 if (!isAuthenticated) {
@@ -263,7 +260,7 @@
                     await addDoc(collection(db, 'posts'), postData);
                     alert('Post publicado com sucesso!');
                 }
-                
+
                 window.location.href = '../blog.html';
             } catch (error) {
                 console.error('Erro ao salvar post:', error);
@@ -273,12 +270,7 @@
             }
         });
 
-        // Inicialização
-        checkAuthorizationAndAuthenticate().then(isAuthorized => {
-            if (isAuthorized) {
-                loadPostForEdit();
-            }
-        });
+        loadPostForEdit();
     </script>
 </body>
 
