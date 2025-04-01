@@ -136,32 +136,40 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
         import { getFirestore, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
         import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
-
+    
         // Configuração do Firebase
-        import { firebaseConfig } from './firebaseConfig';
-
+        const firebaseConfig = {
+            apiKey: "AIzaSyChSvMOqtRSEliBP_0Q9ZFGgtE84PoQTFA",
+            authDomain: "beets-blog.firebaseapp.com",
+            projectId: "beets-blog",
+            storageBucket: "beets-blog.firebasestorage.app",
+            messagingSenderId: "139716658180",
+            appId: "1:139716658180:web:6e46dc313ece33d2c36151",
+            measurementId: "G-Z7DKLY5VTW"
+        };
+    
         // Inicialize o Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-
+    
         // Função para carregar posts
         async function loadPosts() {
             const postsContainer = document.getElementById('posts-container');
             postsContainer.innerHTML = '<div class="loading">Carregando posts...</div>';  // Exibe a mensagem de carregamento
-
+    
             try {
                 const postsRef = collection(db, 'posts');
                 const q = query(postsRef, orderBy('data', 'desc'));
                 const querySnapshot = await getDocs(q);
-
+    
                 postsContainer.innerHTML = ''; // Limpa a mensagem de carregamento
-
+    
                 if (querySnapshot.empty) {
                     postsContainer.innerHTML = '<p class="error">Nenhum post encontrado.</p>';
                     return;
                 }
-
+    
                 querySnapshot.forEach((doc) => {
                     const post = doc.data();
                     const postElement = createPostElement(doc.id, post);
@@ -172,14 +180,14 @@
                 postsContainer.innerHTML = '<p class="error">Erro ao carregar os posts. Por favor, tente novamente mais tarde.</p>';
             }
         }
-
+    
         // Função para criar elemento de post
         function createPostElement(id, post) {
             const article = document.createElement('article');
             article.className = 'post-card';
-
+    
             const preview = post.preview || (post.conteudo ? post.conteudo.substring(0, 150) + '...' : '');
-
+    
             article.innerHTML = `
                 <div class="post-image">
                     <img src="${post.imagem}" alt="${post.titulo}">
@@ -196,35 +204,35 @@
                     </div>
                 </div>
             `;
-
+    
             return article;
         }
-
+    
         // Carregar posts ao carregar a página
         document.addEventListener('DOMContentLoaded', loadPosts);
-
+    
         const loginBtn = document.getElementById('login-btn');
         const adminBtn = document.getElementById('admin-btn');
         const loginModal = document.getElementById('login-modal');
         const closeModal = document.querySelector('.close');
         const submitLogin = document.getElementById('submit-login');
         const loginError = document.getElementById('login-error');
-
+    
         // Exibir modal de login
         loginBtn.addEventListener('click', () => {
             loginModal.style.display = 'flex';
         });
-
+    
         // Fechar modal de login
         closeModal.addEventListener('click', () => {
             loginModal.style.display = 'none';
         });
-
+    
         // Login com Firebase
         submitLogin.addEventListener('click', async () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-
+    
             try {
                 await signInWithEmailAndPassword(auth, email, password);
                 loginModal.style.display = 'none';
@@ -233,7 +241,7 @@
                 loginError.style.display = 'block';  // Exibe erro se o login falhar
             }
         });
-
+    
         // Checagem de autenticação
         function checkAuthorization() {
             onAuthStateChanged(auth, (user) => {
@@ -247,6 +255,7 @@
             });
         }
     </script>
+    
 
 </body>
 
