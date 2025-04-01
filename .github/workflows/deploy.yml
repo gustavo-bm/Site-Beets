@@ -10,15 +10,18 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # Checkout do código
+      # Checkout do código sem credenciais persistentes
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false
 
       # Configurar Git para o bot do GitHub Actions
       - name: Configure Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+          git remote set-url origin https://github.com/${{ github.repository }}.git
 
       # Deploy para GitHub Pages
       - name: Deploy to GitHub Pages
@@ -26,3 +29,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
+          keep_files: true # Mantém arquivos existentes na branch gh-pages
