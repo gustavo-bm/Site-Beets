@@ -2,6 +2,9 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
 }
 
 .admin-header {
@@ -56,6 +59,8 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
+    align-items: start;
+    grid-auto-rows: 1fr;
 }
 
 .post-card {
@@ -67,6 +72,9 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .post-card:hover {
@@ -77,17 +85,21 @@
     width: 100%;
     height: 200px;
     overflow: hidden;
+    position: relative;
 }
 
 .post-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .post-info {
     padding: 1.5rem;
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .post-info h3 {
@@ -96,12 +108,16 @@
     color: var(--beterraba-escura);
     margin-bottom: 1rem;
     font-size: 1.2rem;
+    line-height: 1.4;
 }
 
 .post-meta {
     color: var(--texto-claro);
     font-size: 0.9rem;
     margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
 }
 
 .post-meta span {
@@ -115,7 +131,7 @@
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
-    margin-top: auto;
+    background: #f8f9fa;
 }
 
 /* Modal */
