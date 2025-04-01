@@ -1,0 +1,167 @@
+#como-funciona {
+  font-family: "Poppins";
+  width: 80%;
+  padding: 2rem 8rem;
+  width: 100%;
+  overflow: hidden;
+}
+
+#como-funciona h2{
+  color: var(--verde);
+  font-size: 42px;
+  font-weight: 200;
+  padding-bottom: 15px;
+}
+
+.como-funciona-titulo {
+  font-weight: 600;
+  color: var(--beterraba-media);
+  font-size: 18px;
+}
+
+.como-funciona-subtitulo {
+  color: var(--cinza-escuro);
+  font-weight: 300;
+}
+
+summary {
+  padding: 1rem;
+  display: block;
+  background: var(--cinza-claro);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 10px;
+  padding-left: 3.5rem;
+  position: relative;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+summary:before {
+  content: " ";
+  border-width: 1rem;
+  border-style: solid;
+  border-color: transparent transparent transparent var(--verde);
+  border-radius: 20px;
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  transform: rotate(0);
+  transform-origin: .2rem 50%;
+  transition: .25s transform ease;
+}
+
+.como-funciona-list {
+  padding-top: 27px;
+}
+
+/* THE MAGIC 🧙‍♀️ */
+.como-funciona-list[open]>summary:before {
+  transform: rotate(90deg);
+}
+
+
+.como-funciona-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.como-funciona-list>ul {
+  padding: 3rem;
+}
+
+.como-funciona-detail li {
+  list-style: inside;
+  color: white;
+  font-weight: 200;
+  padding-left: 3rem;
+  margin-bottom: 5px;
+}
+
+.como-funciona-detail {
+  border-radius: 16px;
+  background-color: var(--beterraba);
+  padding: 16px;
+}
+
+/* -- Entre em contato com a gente -- */
+
+.orcamento {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 7rem 0 2rem 0;
+}
+
+.orcamento-texto {
+  text-align: center;
+  font-weight: 200;
+}
+
+.orcamento-btn {
+  width: 50%;
+  height: 50px;
+  font-size: 18px;
+  background: var(--verde);
+  border-radius: 25px;
+  margin-top: 40px;
+  cursor: pointer;
+}
+
+.orcamento p {
+  font-size: 24px;
+}
+
+.orcamento-btn a {
+  font-family: Poppins;
+  text-decoration: none;
+  color: white;
+  font-weight: 200;
+}
+
+.orcamento-btn:hover {
+  background: var(--beterraba-media);
+  font-weight: 400;
+}
+
+@media only screen and (max-width: 1024px) {
+  .orcamento img {
+    display: none;
+  }
+
+  .img-produto {
+    display: none;
+  }
+
+  .orcamento {
+    justify-content: center;
+  }
+
+  .orcamento-texto {
+      text-align: center;
+  }
+
+  .orcamento-btn {
+    width: 80%;
+    height: 60px;
+    border-radius: 50px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  #como-funciona {
+    width: 100%;
+    padding: 2rem 3rem;
+  }
+
+  .orcamento-btn {
+    width: 80%;
+    height: 60px;
+    border-radius: 50px;
+  }
+
+  .como-funciona-detail {
+    padding: 1rem;
+  }
+
+  .como-funciona-detail li{
+    padding: 0.1rem 0rem;
+  }
+}

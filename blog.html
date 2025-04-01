@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Beets Jr.</title>
+
+    <link rel="icon" type="image/svg" href="./assets/logo-sem-fundo.svg">
+    <link rel="stylesheet" href="./styles/global.css">
+    <link rel="stylesheet" href="./styles/header.css">
+    <link rel="stylesheet" href="./styles/footer.css">
+    <link rel="stylesheet" href="./styles/blog/blog.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;800&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- Place the first <script> tag in your HTML's <head> -->
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div id="logo">
+            <div>
+                <img src="./assets/logo-sem-fundo.svg" alt="Beets Jr." height="32">
+            </div>
+            <div>
+                <a href="./index.html">
+                    <h1>Beets Jr.</h1>
+                </a>
+            </div>
+        </div>
+
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+
+        <nav class="menu">
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./blog.html">Blog</a>
+                    <div class="menu-line"></div>
+                </li>
+                <li><a href="./quemSomos.html">Quem Somos</a></li>
+                <li><a href="./politicaDePrivacidade.html">Política de Privacidade</a></li>
+            </ul>
+        </nav>
+
+        <nav id="admin-nav" style="display: none;">
+            <a href="admin/gerenciar-posts.html" class="btn-primary">Gerenciar Posts</a>
+        </nav>
+    </header>
+
+    <!-- Conteúdo do Blog -->
+    <main class="blog-container">
+        <section class="blog-hero">
+            <h1>Blog da Beets</h1>
+            <p>Acompanhe as últimas novidades e insights do mundo da tecnologia</p>
+        </section>
+
+        <section class="blog-posts" id="posts-container">
+            <!-- Posts serão carregados dinamicamente aqui -->
+            <div class="loading">Carregando posts...</div>
+        </section>
+    </main>
+
+    <footer>
+        <nav id="menu-footer">
+            <h3>Links rápidos</h3>
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./quemSomos.html">Quem Somos</a></li>
+                <li><a href="./politicaDePrivacidade.html">Política de Privacidade</a></li>
+            </ul>
+
+            <hr class="linha-customizada">
+            <p>Website desenvolvido por Beets Jr.</p>
+        </nav>
+
+        <div id="logo-footer">
+            <div id="logo">
+                <div>
+                    <img src="./assets/logo-cores-invertida.svg" alt="Beets Jr" height="120">
+                </div>
+
+                <div>
+                    <a href="./index.html">
+                        <h2>Beets Jr.</h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="contatos-footer">
+            <h3>Informações de contato</h3>
+            <p>contato@beetsjr.com.br</p>
+            <p>Sorocaba - SP</p>
+            <div id="redes-sociais-footer">
+                <a href="https://www.instagram.com/beetsjr/" target="_blank">
+                    <img src="./assets/instagram.svg" alt="Instagram" height="30">
+                </a>
+
+                <a href="https://www.facebook.com/beetsjr" target="_blank">
+                    <img src="./assets/facebook.svg" alt="Facebook" height="30">
+                </a>
+
+                <a href="https://www.linkedin.com/company/beets-jr/" target="_blank">
+                    <img src="./assets/linkedin.svg" alt="Linkedin" height="30">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+        import { getFirestore, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyChSvMOqtRSEliBP_0Q9ZFGgtE84PoQTFA",
+            authDomain: "beets-blog.firebaseapp.com",
+            projectId: "beets-blog",
+            storageBucket: "beets-blog.firebasestorage.app",
+            messagingSenderId: "139716658180",
+            appId: "1:139716658180:web:6e46dc313ece33d2c36151",
+            measurementId: "G-Z7DKLY5VTW"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Função para carregar posts
+        async function loadPosts() {
+            try {
+                const postsRef = collection(db, 'posts');
+                const q = query(postsRef, orderBy('data', 'desc'));
+                const querySnapshot = await getDocs(q);
+                const postsContainer = document.getElementById('posts-container');
+                postsContainer.innerHTML = '';
+
+                if (querySnapshot.empty) {
+                    postsContainer.innerHTML = '<p class="error">Nenhum post encontrado.</p>';
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const post = doc.data();
+                    const postElement = createPostElement(doc.id, post);
+                    postsContainer.appendChild(postElement);
+                });
+            } catch (error) {
+                console.error("Erro ao carregar posts:", error);
+                document.getElementById('posts-container').innerHTML =
+                    '<p class="error">Erro ao carregar os posts. Por favor, tente novamente mais tarde.</p>';
+            }
+        }
+
+        // Função para criar elemento de post
+        function createPostElement(id, post) {
+            const article = document.createElement('article');
+            article.className = 'post-card';
+
+            const preview = post.preview || (post.conteudo ? post.conteudo.substring(0, 150) + '...' : '');
+
+            article.innerHTML = `
+                <div class="post-image">
+                    <img src="${post.imagem}" alt="${post.titulo}">
+                </div>
+                <div class="post-content">
+                    <h2>${post.titulo}</h2>
+                    <p class="post-preview">${preview}</p>
+                    <div class="post-footer">
+                        <div class="post-meta">
+                            <span class="post-date">${new Date(post.data).toLocaleDateString('pt-BR')}</span>
+                            <span class="post-author">Por ${post.autor}</span>
+                        </div>
+                        <a href="post.html?id=${id}" class="read-more">Ler mais</a>
+                    </div>
+                </div>
+            `;
+
+            return article;
+        }
+
+        // Carregar posts quando a página carregar
+        document.addEventListener('DOMContentLoaded', loadPosts);
+
+        // Lista de IPs autorizados
+        const authorizedIPs = ['172.24.0.245', '127.0.0.1', 'localhost', '::1'];
+
+        // Verificar se o usuário está autorizado
+        async function checkAuthorization() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                const userIP = data.ip;
+
+                console.log('IP atual:', userIP); // Para debug
+
+                const adminNav = document.getElementById('admin-nav');
+                if (authorizedIPs.includes(userIP) || 
+                    window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1' ||
+                    window.location.hostname === '::1') {
+                    adminNav.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Erro ao verificar IP:', error);
+                // Se houver erro ao verificar IP, verifica se é ambiente local
+                if (window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1' ||
+                    window.location.hostname === '::1') {
+                    document.getElementById('admin-nav').style.display = 'block';
+                }
+            }
+        }
+
+        // Iniciar verificação de autorização
+        checkAuthorization();
+    </script>
+</body>
+
+</html>

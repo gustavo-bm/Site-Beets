@@ -1,0 +1,102 @@
+#hero {
+    margin-top: 5.3rem;
+    width: 100%;
+    padding: 1.5rem 1.2rem;
+}
+
+.background {
+    display: flex;
+    align-content: space-between;
+    justify-content: space-between; /* alinha os conteúdo aos extremos*/
+    background-color: var(--beterraba);  
+    border-radius: 0.7rem; 
+    padding: 5rem 8rem;
+}
+
+#hero h1 {
+    padding-bottom: 3rem;
+    padding-top: 2rem;
+    color: white;
+    font-size: 4rem;
+    width: 27rem;
+}
+
+#hero p {
+    color: white;
+    padding-bottom: 4rem;
+    width: 658px;
+    font-size: 16px;
+    font-weight: 80;
+}
+
+.botao-hero {
+    display: inline-flex;
+    padding: 12px 35px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    cursor: pointer;
+    border-radius: 10px;
+    background: white;
+    color: var(--beterraba);
+    font-weight: 100;
+}
+
+.botao-hero a{
+    text-decoration: none;
+    color: var(--beterraba);
+}
+
+.botao-hero:hover {
+    background: var(--verde);
+    font-weight: 400;
+}
+.imagem-hero {
+    width: 100%;
+    max-width: 37rem;
+    height: auto;
+    object-fit: cover;
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .background {
+        padding: 3rem 7rem;
+    }
+
+    .imagem-hero {
+        display: none;
+    }
+
+    #hero h1 {
+        font-size: 3.5rem;
+        width:auto;
+    }
+
+    #hero p {
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .botao-hero {
+        margin-bottom: 4rem;
+        font-weight: 400;
+        font-size: 20px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .background{
+        padding: 2rem 3rem;
+    }
+
+    #hero h1 {
+        font-size: 2.5rem;
+        width:auto;
+    }
+
+    #hero p {
+        font-size: 1.2rem;
+    }
+}
